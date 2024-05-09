@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHA Kiralama</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <h1>IHA Kiralama Sayfasına Hosgeldiniz</h1>
+    
+    <h2>İHA Listesi</h2>
+    <table id="iha-table" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Serial Number</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Ağırlık</th>
+                <th>Kategori</th>
+                <th>Oluşturulma Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- İHA'ların listeleneceği yer -->
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            // Tarayıcının yerel depolama alanından token'ı al
+            var token = localStorage.getItem('token');
+            if (token) {
+                $('#iha-table').DataTable({
+                    "ajax": {
+                        "url": "http://127.0.0.1:8000/api/iha/",
+                        "headers": {
+                            // Authorization başlığına token'ı ekleyerek API isteği yap
+                            "Authorization": "Bearer " + token
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "id" },
+                        { "data": "serialNumber" },
+                        { "data": "brand" },
+                        { "data": "model" },
+                        { "data": "weight" },
+                        { "data": "category" },
+                        { "data": "created_at" }
+                    ]
+                });
+            } else {
+                // Token yoksa veya geçersizse, oturum açma sayfasına yönlendir
+                window.location.href = '/giris';
+            }
+        });
+    </script>
+</body>
+</html>

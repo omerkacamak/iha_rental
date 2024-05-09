@@ -18,9 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts.views import CreateUserView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    #Page Endpoints
+    path("",views.homePage,name="home"),
+    path("kayitol",views.registerPage,name="register"),
+    path("giris",views.loginPage,name="login"),
+    #API Endpoints
     path("api/user/register/", CreateUserView.as_view(), name="register"),
     path('api/token/', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh'),

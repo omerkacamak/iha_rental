@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oturum Açma</title>
+</head>
+<body>
+    <h1>Oturum Açma</h1>
+    <form id="login-form">
+        <label for="username">Kullanıcı Adı:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Şifre:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Oturum Aç">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#login-form').submit(function(e) {
+                e.preventDefault(); // Formun normal submit işlemini engelle
+                var form_data = $(this).serialize(); // Form verilerini al
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/token/', // API URL'si
+                    method: 'POST',
+                    data: form_data,
+                    success: function(response) {
+                        alert('Başarıyla oturum açıldı.');
+                        // JWT token'ı local storage'a kaydet
+                        localStorage.setItem('token', response.access);
+                        // Ana sayfaya yönlendir
+                        window.location.href = '/';
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Oturum açma sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

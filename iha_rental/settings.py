@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'iha',
+    'rentalOperation',
     'rest_framework',
     'corsheaders',
 ]

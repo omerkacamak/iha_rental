@@ -21,16 +21,15 @@ class IhaListCreate(generics.ListCreateAPIView):
         
         
 
-class IhaDelete(generics.DestroyAPIView):
-    queryset = Iha.objects.all()
+class IhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+   
     serializer_class = IhaSerializer
-    permission_classes =[IsAuthenticated]
+    permission_classes =[AllowAny]
 
-    def get_queryset(self):
-        user = self.request.user
-        return Iha.objects.all()
-        
     
+        
+    def get_object(self):
+        return Iha.objects.get(id=self.kwargs['id'])
     
 
     

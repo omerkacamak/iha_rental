@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path("iha/",views.IhaListCreate.as_view(),name="iha-list"),
-    path("iha/delete/<int:pk>/",views.IhaDelete.as_view(),name="iha-delete"),
+    path("iha/<int:id>/",views.IhaRetrieveUpdateDestroy.as_view(),name="iha-retrieve-update-destroy"),
 ]

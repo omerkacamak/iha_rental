@@ -10,8 +10,8 @@ class Iha(models.Model):
     weight = models.FloatField()
     category = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    availability = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.serialNumber
+         return f'{self.brand} {self.model} # {self.serialNumber}'
 

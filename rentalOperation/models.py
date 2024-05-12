@@ -13,6 +13,12 @@ class RentalOperation(models.Model):
     end_date = models.DateField()
  
     def __str__(self):
-        return str(self.process_number)
+       return f"[{self.renting_user}] - {self.iha} - {self.created_at} - {self.end_date}" 
+
+    class Meta:
+        models.UniqueConstraint(
+            fields=['user','created_at','end_date'], name= 'user_rentalOperation_date'
+        )
+
     
 

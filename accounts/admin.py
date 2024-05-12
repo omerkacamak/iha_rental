@@ -1,3 +1,7 @@
 from django.contrib import admin
+from iha.models import Iha
+from rentalOperation.models import RentalOperation 
 
-# Register your models here.
+
+admin.site.register(Iha)
+admin.site.register(RentalOperation)

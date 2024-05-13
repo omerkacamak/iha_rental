@@ -16,3 +16,11 @@ class CreateUserView(generics.CreateAPIView):
         user.set_password(serializer.validated_data['password'])
         user.save()
 
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes =[AllowAny]
+
+
+

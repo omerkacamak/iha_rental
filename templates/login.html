@@ -3,43 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oturum Açma</title>
+    <title>Giriş Yap</title>
 </head>
 <body>
-    <h1>Oturum Açma</h1>
-    <form id="login-form">
+    <h2>Giriş Yap</h2>
+    <form id="loginForm">
         <label for="username">Kullanıcı Adı:</label>
-        <input type="text" id="username" name="username" required><br><br>
-
+        <input type="text" id="username" name="username"><br><br>
         <label for="password">Şifre:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <input type="submit" value="Oturum Aç">
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Giriş Yap</button>
     </form>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#login-form').submit(function(e) {
-                e.preventDefault(); // Formun normal submit işlemini engelle
-                var form_data = $(this).serialize(); // Form verilerini al
+
+            var tokenx2 = localStorage.getItem('jwtToken');
+            console.log("sayfa başı YARAPKEN TOKEN OLUSTU")
+            console.log(tokenx2)
+
+            $('#loginForm').submit(function(e) {
+                e.preventDefault();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                loginUser(username, password);
+            });
+
+            function loginUser(username, password) {
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/token/', // API URL'si
-                    method: 'POST',
-                    data: form_data,
+                    url: 'http://127.0.0.1:8000/api/token/',
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
                     success: function(response) {
-                        alert('Başarıyla oturum açıldı.');
-                        // JWT token'ı local storage'a kaydet
-                        localStorage.setItem('token', response.access);
-                        // Ana sayfaya yönlendir
+                        //alert("Giriş başarılı! Ana sayfaya yönlendiriliyorsunuz.");
+                        console.log("RESPONSE")
+                        console.log(response)
+                        var token = response.access;
+                        window.localStorage.removeItem('jwtToken');
+                        window.localStorage.setItem('jwtToken', token);
+                        var tokenx = localStorage.getItem('jwtToken');
+                        console.log("GİRİŞ YARAPKEN TOKEN OLUSTU")
+                        console.log(tokenx)
                         window.location.href = '/';
                     },
                     error: function(xhr, status, error) {
-                        alert('Oturum açma sırasında bir hata oluştu. Lütfen tekrar deneyin.');
-                        console.error(xhr.responseText);
+                        alert("Giriş sırasında bir hata oluştu: " + error);
                     }
                 });
-            });
+            }
         });
     </script>
 </body>
